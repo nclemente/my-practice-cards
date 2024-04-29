@@ -50,7 +50,7 @@
     <textarea
       ref="answer_el"
       v-model="user_answer"
-      placeholder="Type your answer here, just for your own reference..."
+      placeholder="Type your answer here just for your own reference..."
       :disabled="invalidated"
       >
     </textarea>
