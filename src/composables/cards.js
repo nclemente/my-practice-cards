@@ -2,10 +2,10 @@ const safe = text => text.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const pre = text => `<pre>${ safe ( text ) }</pre>`
 
 const all_cards = [
-  {
-    question: `Who's the best?`,
-    answer: `Noliani Clemente 😉`,
-  },
+  // {
+  //   question: `Who's the best?`,
+  //   answer: `Noliani Clemente 😉`,
+  // },
 
   // <br />
   // <pre>
@@ -28,7 +28,7 @@ const all_cards = [
   },
   {
     question: `Every Vue application starts by creating a new:`,
-    answer: `application instance, in the form of <pre>const app = createApp(App)</pre>`,
+    answer: `Application instance, in the form of <pre>const app = createApp(App)</pre>`,
   },
   {
     question: `How do you create a new Vue application instance`,
@@ -36,7 +36,7 @@ const all_cards = [
   },
   {
     question: `A new application instance needs to be passed a:`,
-    answer: `root component`,
+    answer: `Root component`,
   },
   {
     question: `How do you mount the Vue application <pre>const app = createApp(App)</pre> into the container element ${ pre('<div id=\"app\"></div>' ) }`,
@@ -44,7 +44,7 @@ const all_cards = [
   },
   {
     question: `Should the .mount() method be called <b>before</b> or <b>after</b> all app configurations and asset registrations are done?`,
-    answer: `after`,
+    answer: `<b>After</b> all app configurations and asset registrations are done`,
   },
 
   // Reactivity
@@ -61,14 +61,14 @@ const all_cards = [
     question: `Is this code valid?<br />
     ${ pre(`const obj = ref({ property: 'content' })
 <div>{{ obj.value.property }}</div>`) }`,
-    answer: `No, ${ pre(`.value`) } doesn't need to be called on a template since reference objects are automatically unwrapped`,
+    answer: `No, ${ pre(`.value`) } is not called on a template since reference objects are automatically unwrapped`,
   },
   {
     question: `Does a computed property automatically tracks every value inside of it?`,
     answer: `No, only reactive dependencies`,
   },
   {
-    question: `How many times is this ${ pre(`computed`) } property evaluated?<br />
+    question: `How many times is ${ pre(`comp_prop`) } property evaluated?<br />
     ${ pre(`const obj = ref({ count: 0 })
 const comp_prop = computed(() => obj.value.count / 2)
 obj.value.count++
@@ -111,7 +111,7 @@ obj.value.count++
     answer: `It is used for <b>text interpolation</b>`,
   },
   {
-    question: `The double mustaches interpret the data as`,
+    question: `Do double mustaches interpret the data as <b>plain text</b> or <b>HTML</b>?`,
     answer: `Plain text, not HTML`,
   },
   {
@@ -137,7 +137,7 @@ obj.value.count++
     answer: `The contents of the span will be replaced with the value of the rawHtml property.`,
   },
   {
-    question: `Dynamically rendering arbitrary HTML on your website can be very dangerous because it`,
+    question: `Dynamically rendering arbitrary HTML with ${ pre('v-html') } can be very dangerous because it`,
     answer: `can easily lead to XSS vulnerabilities`,
   },
   {
@@ -153,7 +153,7 @@ obj.value.count++
     answer: pre( `v-bind` ),
   },
   {
-    question: `This code ${ pre('<div :id></div>') } is valid only if...`,
+    question: `This code ${ pre('<div :id></div>') } (with no argument passed) is valid only if...`,
     answer: `there is also a variable called <pre>id</pre>,
     since the attribute has the same name with the JavaScript value being bound
     <br /><i>(only available in Vue 3.4 and above)</i>`,
@@ -177,8 +177,8 @@ const obj = {
 </div>`),
   },
   {
-    question: `Are any kind of properties accessible in template expressions?`,
-    answer: `No, since template expressions are sandboxed and only have access to commonly used built-in globals such as <pre>Math</pre> and <pre>Date</pre>`,
+    question: `Are all JavaScript global properties and methods accessible in template expressions?`,
+    answer: `No, since template expressions are sandboxed and only have access to commonly used JavaScript globals such as <pre>Math</pre> and <pre>Date</pre>`,
   },
   {
     question: `At what point will a function called inside a binding expression be called?`,
@@ -186,7 +186,10 @@ const obj = {
   },
   {
     question: `In what template positions can <b>JavaScript expressions</b> be used?`,
-    answer: `<ul><li>Inside text interpolations (double mustaches)</li><li>In the attribute value of Vue directives</li></ul>`,
+    answer: `<ul>
+      <li>Inside text interpolations (double mustaches)</li>
+      <li>In the attribute value of Vue directives (${ pre('v-bind') }, ${ pre('v-on') }, ${ pre('v-if') }, etc.)</li>
+    </ul>`,
   },
   {
     question: `Why is this code invalid:
@@ -239,45 +242,39 @@ const obj = {
   },
   {
     question: `Which one is the correct syntax?<br />
-    ${ pre(`
-<div v-for="item of items">
+    ${ pre(`<div v-for="item of items">
 <div v-for="item in items">`) }`,
     answer: `Both are accepted`,
   },
   {
     question: `Is this valid?<br />
-    ${ pre(`
-<div v-for="{ property } in items>`) }`,
+    ${ pre(`<div v-for="{ property } in items>`) }`,
     answer: `Yes, deconstruction is allowed in for loops`,
   },
   {
     question: `Will this trigger any updates to the array?<br />
-    ${ pre(`
-const my_array = ref([...])
+    ${ pre(`const my_array = ref([...])
 my_array.value.filter(...)`) }`,
     answer: `No, since ${ pre(`filter`) } does not mutate the array<br />
-    An object replacement would have to be made${ pre(`
-const my_array = ref([...])
+    An object replacement would have to be made<br />
+    ${ pre(`const my_array = ref([...])
 my_array.value = my_array.value.filter(...)`) }`,
   },
   {
-    question: `Is this following good practices?<br />
-    ${ pre(`
-    const sorted_array = computed(()=> my_array.sort(...))`) }`,
+    question: `Is this code following good practices?<br />
+    ${ pre(`const sorted_array = computed(()=> my_array.sort(...))`) }`,
     answer: `No, since ${ pre(`sort`) } mutates the array itself.<br />
-A copy of the array should be used instead${ pre(`
-const sorted_array computed(()=> [ ...my_array ].sort(...))`) }`,
+A copy of the array should be used instead<br />
+${ pre(`const sorted_array computed(()=> [ ...my_array ].sort(...))`) }`,
   },
   {
     question: `Is this following valid?<br />
-    ${ pre(`
-    <li v-for="item in items" :key="JSON.stringify(item)">{{ item }}</li>`) }`,
+    ${ pre(`<li v-for="item in items" :key="JSON.stringify(item)">{{ item }}</li>`) }`,
     answer: `Yes, because the item is being turned into a string befored being added as a ${ pre(`:key`) }`,
   },
   {
     question: `Is this following good practices?<br />
-    ${ pre(`
-    <li v-for="(item, index) in items" :key="index">{{ item }}</li>`) }`,
+    ${ pre(`<li v-for="(item, index) in items" :key="index">{{ item }}</li>`) }`,
     answer: `No, using the ${ pre(`index`) } as the ${ pre(`:key`) } in a for loop can cause element tracking problems when these change positions in the array`,
   },
   {
@@ -289,11 +286,11 @@ const sorted_array computed(()=> [ ...my_array ].sort(...))`) }`,
     answer: `They get destroyed`,
   },
   {
-    question: `When is ${ pre(`v-if`) } more efficient?`,
+    question: `When is ${ pre(`v-if`) } more efficient than ${ pre(`v-show`) }?`,
     answer: `When faster initial load times are needed`,
   },
   {
-    question: `When is ${ pre(`v-show`) } more efficient?`,
+    question: `When is ${ pre(`v-show`) } more efficient than ${ pre(`v-if`) }?`,
     answer: `When frequent toggles need to be handled`,
   },
   {
@@ -305,12 +302,12 @@ const sorted_array computed(()=> [ ...my_array ].sort(...))`) }`,
   // Event Handlers
 
   {
-    question: `Is there any value passed to this function?<br />
+    question: `Is there any value passed to this ${ pre(`my_function`) }?<br />
     ${ pre(`<button @click="my_function"></button>`) }`,
     answer: `Yes, the value of ${ pre(`$event`) } is always passed to functions in an event handler`,
   },
   {
-    question: `In an event handler, how can you pass a value along with the default event`,
+    question: `In an event handler, how can you pass a value along with the default ${ pre(`$event`) } variable`,
     answer: `By explicitly passing the values:<br />
     ${ pre(`
 <button @click="my_function( 'my_value', $event )"></button>`) } `,
@@ -341,14 +338,14 @@ const sorted_array computed(()=> [ ...my_array ].sort(...))`) }`,
   {
     question: `Is this code valid?<br />
     ${ pre(`
-const base_styles = reactive({...})
-const overriding_styles = computed(()=>{...})
+const base_styles = reactive({ color: 'blue' })
+const overriding_styles = computed(()=>{ color: 'red' })
 <div :style="[base_styles, overriding_styles]">`) }`,
     answer: `Yes, arrays and reactive objects can be combined to style an HTML element`,
   },
   {
     question: `How can the CSS ${ pre(`font-size: 1rem`) } be added as dynmaic styling to an element?`,
-    answer: `By binding it as property on the style attribute and using camelCase instead of ke-bob:<br />
+    answer: `By binding it as property on the style attribute and using camelCase instead of ke-bob letter casing:<br />
     ${ pre(`<div :style="{ fontSize: '1rem' }">`) }`,
   },
   {
@@ -369,7 +366,7 @@ const overriding_styles = computed(()=>{...})
     answer: `Text interpolation does not work inside textareas <i>(possibly because it cannot be two-way bound)</i>`,
   },
   {
-    question: `Can an ${ pre(`<option>`) } on a ${ pre(`<select>`) } contain objects?`,
+    question: `Can the value of an ${ pre(`<option>`) } in an HTML ${ pre(`<select>`) } contain an object?`,
     answer: `Yes${ pre(`
 <select v-model="selected_option">
   <option :value="{ id: 0, value: 'value_1' }">Select an option</option>
@@ -380,7 +377,7 @@ const overriding_styles = computed(()=>{...})
     ${ pre(`<select v-model="selected_option">
   <option value="">Select an option</option>
 </select>`) }`,
-    answer: `It can cause browser problems`,
+    answer: `To avoid browser problems`,
   },
   {
     question: `Are ${ pre(`true-value`) } and ${ pre(`false-value`) } valid properties?`,
@@ -410,8 +407,7 @@ const overriding_styles = computed(()=>{...})
 import MyComponent from './MyComponent.vue'
 Vue.createApp(App)
   .component(MyComponent)
-  .mount('#app')
-}`)}`
+  .mount('#app')`)}`
   },
   {
     question: `Can you ${ pre('defineProps') } inside ${ pre('<template>') }?`,
@@ -442,14 +438,14 @@ emit('my_event', payload)`),
   },
   {
     question: `When using <b>Dynamic Components</b>, is the previous component unmounted after it has been transitioned to a new component?`,
-    answer: `They are unmounted by default, but this can be prevented by wrapping the dynamic component into a ${ pre(`<KeepAlive>`) } component
+    answer: `They are unmounted by default, but this can be prevented by wrapping the dynamic component in a ${ pre(`<KeepAlive>`) } component
     ${ pre(`<KeepAlive>
   <component :is="current_component" />
 </KeepAlive>`) }`,
   },
   {
     question: `Can HTML tags be used with <b>Dynamic Components</b>?`,
-    answer: `Yes ${ pre(`
+    answer: `Yes<br />${ pre(`
     const current_html_el = ref('span')
     <component :is="current_html_el" />`)}`,
   },
@@ -548,10 +544,10 @@ setTimeout(() => {
   {
     question: `How do you set a name to a child component slot and access it on the parent comopnent?`,
     answer: `By adding a name to the slot:<br/>
-    In child component: ${ pre(`
-<slot name="my_slot"></slot>`)}<br/>
-In parent component: ${ pre(`
-<template v-slot:my_slot="my_slot"></template>`)}`,
+    In child component:<br/>
+    ${ pre(`<slot name="my_slot"></slot>`)}<br/>
+    In parent component:<br/>
+    ${ pre(`<template v-slot:my_slot></template>`)}`,
   },
   {
     question: `What is the directive shorthand for a slot name?`,
@@ -635,7 +631,7 @@ const AsyncComp = defineAsyncComponent({
   },
   {
     question: `What are the ${ pre(`delay`) } and ${ pre(`timeout`) } options used for in ${ pre(`defineAsyncComponent`) }?`,
-    answer: `${ pre(`delay`) } is the time before showing the loading component<br />
+    answer: `${ pre(`delay`) } is the time before showing the loading component, used to avoid flickering on fast networks<br />
     ${ pre(`timeout`) } is the maximum time allowed to load the imported component before displaying the error component`,
   },
   {
@@ -682,7 +678,7 @@ const emit = defineEmits(['update:modelValue'])
 const argument_1 = defineModel('argument_1')
 const argument_2 = defineModel('argument_2')`) }
       <br />and passed from the parent:
-      ${ pre(`
+      <br />${ pre(`
 <MyCustomComponent
   v-model:argument_1="my_obj_1"
   v-model:argument_2="my_obj_2"
@@ -690,13 +686,13 @@ const argument_2 = defineModel('argument_2')`) }
   },
   {
     question: `How can you add custom modifiers to the model of a custom component?<br />
-    ${ pre(`<MyComponent v-model.custom_argument="my_obj" />`) }`,
+    ${ pre(`<MyComponent v-model.my_modifier="my_obj" />`) }`,
     answer: `By destructuring the ${ pre(`defineModel()`) } return value and using a setter:
     ${ pre(`
 const [model, modifiers] = defineModel({
   set(value) {
-    if (modifiers.custom_argument)
-      return /* apply argument to value */
+    if (modifiers.my_modifier)
+      return /* apply modifier to value */
     return value // otherwise return value unmodified
   }
 })`) }`,
@@ -716,7 +712,7 @@ const [model, modifiers] = defineModel({
     ${ pre(`( sum ) => { ... }`) }`,
   },
   {
-    question: `How can you watch multiple properties by using ${ pre(`watch`) } (not ${ pre(`watchEffect`) })?`,
+    question: `How can you watch multiple properties by using a single ${ pre(`watch`) } (not ${ pre(`watchEffect`) })?`,
     answer: `By passing them to the watcher in an array:<br/>
     ${ pre(`watch([
   ref_obj_1,
@@ -750,7 +746,7 @@ const [model, modifiers] = defineModel({
       while ${ pre(`watchEffect`) } watches for every reactive property accessed within it`, 
   },
   {
-    question: `How do you force a <b>watcher</b> to be called <i>after</i> the DOM has been updated?`,
+    question: `How do you force a <b>watcher</b> to be called <i>after</i> the DOM has been updated? And what can you do to change that behavior...`,
     answer: `By adding the ${ pre(`{ flush: 'post' }`) } option, or by using ${ pre(`watchPostEffect`) }`,
   },
   {
@@ -776,7 +772,9 @@ unwatch()` ),
 <div ref="el">`),
   },
   {
-    question: `After what can a <b>template ref</b> be accessed`,
+    question: `After what can a <b>template ref</b> ${ pre(`ref_el`) } be accessed?<br />
+    ${ pre(`const ref_el = ref()
+<MyComponent ref="ref_el">`) }`,
     answer: `After the component has been mounted`,
   },
   {
@@ -793,10 +791,15 @@ unwatch()` ),
     answer: `No, unless these are exposed by ${ pre(`defineExpose({ ... })`) }`,
   },
   {
-    question: `How is the value of a reference (${ pre(`ref()`) }) passed by ${ pre(`defineExpose({ ... })`) } accessed in the parent component?`,
-    answer: `Directly through the reference component variable, since exposed references are automatically unwrapped<br/>
-    ${ pre(`const child_component = ref()
-child_component.value.exposed_variables`)}`,
+    question: `Write the code to access the value of ${ pre(`count`) } in the custom component:<br />
+    ${ pre(`ChildCopmonent.vue
+const my_ref = ref({ count: 0 })
+defineExpose({ my_ref })`) }<br />
+by a parent component:<br />`,
+    answer: `${ pre(`<ChildCopmonent ref="child_component">
+const child_component = ref()
+child_component.value.my_ref.count`)}<br/>
+    Exposed references are automatically unwrapped`,
   },
   
   // Transitions
@@ -831,7 +834,7 @@ child_component.value.exposed_variables`)}`,
   },
   {
     question: `How do you set the animations for a named transition: ${ pre('<Transition name="my_animation">') }`,
-    answer: `Use the transition CSS classes and replace the ${ pre(`v`) } for the transition name:<br />
+    answer: `Use the transition CSS classes and replace the ${ pre(`v`) } with the transition name:<br />
     ${ pre(`.my_animation-enter-from {...}`) }`,
   },
   {
@@ -952,7 +955,7 @@ child_component.value.exposed_variables`)}`,
     answer: `By adding the ${ pre('mode="out-in') }`,
   },
   {
-    question: `How can you add a <b>transition</b> to a <b>dynamic component</b>?`,
+    question: `Write the code to add a <b>transition</b> to a <b>dynamic component</b>?`,
     answer: pre(`<Transition>
   <component :is="current_component" />
 </Transition>`),
@@ -1002,7 +1005,8 @@ child_component.value.exposed_variables`)}`,
   },
   {
     question: `How is a plugin <b>defined</b>?`,
-    answer: pre(`export const my_plugin = {
+    answer: pre(`my_plugin.js
+export const my_plugin = {
   install ( app, options ) { ... }
 }`),
   },
