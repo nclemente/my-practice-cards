@@ -34,7 +34,6 @@
     timer_el.value.stop ()
   }
   const card_rated = rating => {
-    console.log('card_rated', rating)
     user_ratings.value [ card_num.value ] = rating
   }
 
@@ -144,7 +143,6 @@
   <Transition name="results">
     <FinalResults
       v-if="show_results"
-      class="practice_results"
       :results="user_ratings"
       @review="review_stacks"
       @restart="restart_all_cards"

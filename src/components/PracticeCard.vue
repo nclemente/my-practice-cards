@@ -8,6 +8,7 @@
   const sn = useStorageName ( 'practice_card' )
 
   const props = defineProps ({
+    // card details
     card: {
       type: Object,
       required: true,
@@ -15,10 +16,12 @@
         value.question?.length
         && value.answer.length >= 0,
     },
+    // user has answered
     answered: {
       type: Boolean,
       required: false,
     },
+    // invalidated by timeout, etc.
     invalidated: {
       type: Boolean,
       required: false,
@@ -30,17 +33,11 @@
   const emit = defineEmits ([
     'rated',
   ])
-
   
   const rating = useStorage ( sn.get_name ( `rating` ), -1 )
   watch ( rating, () => emit ( 'rated', rating.value ) )
-  // const rate = rating_value => {
-  //   rating.value = rating_value
-  //   emit ( 'rated', rating.value )
-  // }
 
   const reset = () => {
-    console.log('reset', rating.value)
     rating.value = -1
     
     good_icon.value = get_random_item ( good_icons_list )
@@ -74,7 +71,7 @@
 
   const keyboard_rating_listener = ev => {
     if ( invalidated.value ) return
-    
+
     const key_num = parseInt ( ev.key )
     if ( key_num > 0 && key_num <= 3 )
       // key 1 => rating 2
