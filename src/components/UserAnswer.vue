@@ -59,15 +59,17 @@
   .user_answer {
     display: flex;
     flex-direction: column;
+    grid-row: 2;
+    margin-top: var(--gap-m);
   }
 
   .user_answer textarea {
     min-width: 100%;
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 4rem;
-    border-top-left-radius: 2rem;
-    border-top-right-radius: 2rem;
+    padding: var(--gap-m);
+    border-top-left-radius: var(--gap-s);
+    border-top-right-radius: var(--gap-s);
     background: #222;
     color: #ccc;
     border: 1px solid #444;
@@ -100,4 +102,18 @@
     background: gray;
   }
 
+ 
+  @media (min-width: 920px) {
+    .user_answer {
+      grid-column: 2;
+      grid-row: 1;
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .user_answer textarea {
+      padding: var(--gap-xl);
+    } 
+  }
 </style>

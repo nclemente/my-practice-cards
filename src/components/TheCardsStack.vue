@@ -142,11 +142,11 @@
 <style>
   .card_wrapper {
     display: grid;
-    grid-template-columns: 4fr 3fr;
-    column-gap: 2rem;
-    margin: 5rem 0;
-    width: 80vw;
+    grid-template-columns: 1fr;
+    margin: var(--gap-m) 0;
     min-height: 60vh;
+    width: 80vw;
+    max-width: 80vw;
   }
 
   .buttons {
@@ -191,26 +191,11 @@
     justify-content: space-between;
     width: 100%;
   }
-  
-  .practice_results {
-    position: absolute;
-    /* height: 110%;
-    width: 110%; */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-self: center;
-    z-index: 9;
-  }
-
-  .results-enter-active,
-  .results-leave-active {
-    transition: all .5s ease;
-  }
-  
-  .results-enter-from,
-  .results-leave-to {
-    opacity: 0;
-    transform: scaleY ( 0 );
-  }
+ 
+ @media (min-width: 920px) {
+   .card_wrapper {
+     grid-template-columns: 4fr 3fr;
+     column-gap: var(--gap-m);
+   }
+ }
 </style>

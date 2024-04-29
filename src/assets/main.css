@@ -1,11 +1,34 @@
 @import './base.css';
 
+:root {
+  --gap-xl: 4rem;
+  --gap-l: 3rem;
+  --gap-m: 2rem;
+  --gap-s: 1rem;
+  --gap: var(--gap-s)
+}
+
+body {
+  display: flex;
+  place-items: center;
+}
+
 #app {
-  /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
+  padding: var(--gap-s);
   font-weight: normal;
   display: flex;
+  justify-content: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: var(--gap-s) 0;
+  min-height: calc(100vh - ( 2 * ( var(--gap-s) + var(--gap-m) ) ) );
+  justify-content: space-between;
 }
 
 a,
@@ -56,23 +79,11 @@ pre {
 }
 
 @media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
   #app {
-    /* display: grid;
-    grid-template: ;-columns: 1fr 1fr; */
-    padding: 0 2rem;
+    padding: var(--gap-m);
   }
 
   main {
     min-width: 20rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    margin: 4rem 0;
   }
 }

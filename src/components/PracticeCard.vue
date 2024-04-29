@@ -152,16 +152,16 @@
 
 <style>
   .practice_card {
-    border: 1px solid #444;
-    border-radius: 1rem;
-    padding: 3rem;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 0;
+    border-radius: 0;
+    border: none;
   }
   .practice_card > * {
-    margin: 1rem 0;
+    margin: var(--gap-s) 0;
   }
   .practice_card pre {
     color: burlywood;
@@ -170,12 +170,12 @@
   .rating_buttons {
     display: flex;
     justify-content: space-around;
-    margin: 3rem;
+    margin: var(--gap-m) 0;
   }
 
   .rating_button {
-    padding: 1rem;
-    font-size: 3rem;
+    padding: var(--gap-s);
+    font-size: var(--gap-l);
     border-radius: 100%;
     cursor: pointer;
   }
@@ -211,7 +211,8 @@
   .rating_message {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    margin-top: var(--gap-m);
+    text-align: center;
   }
   
   .rating_message .good {
@@ -238,6 +239,11 @@
 
   .answer_text {
     height: 100%;
+  }
+  
+  .answer_text pre {
+    text-wrap: wrap;
+    white-space: break-spaces;
   }
 
   .fade-enter-active,
@@ -280,6 +286,28 @@
     }
     25% {
       opacity: 1;
+    }
+  }
+
+  @media (min-width: 500px) {
+    .practice_card {
+      border: 1px solid #444;
+      border-radius: var(--gap-s);
+      padding: var(--gap-m);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .practice_card {
+      padding: var(--gap-l);
+    }
+
+    .practice_card > * {
+      margin: var(--gap-s) 0;
+    }
+
+    .rating_buttons {
+      margin: var(--gap-m) 0;
     }
   }
 </style>
