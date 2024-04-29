@@ -21,8 +21,11 @@
     warn: 'goldenrod',
     alert: 'crimson',
     white: 'white',
+    paused: 'gray',
   }
   const color = computed ( () => {
+    if ( !running.value )
+      return colors.paused
     if ( time.value > 20 )
       return colors.safe
     if ( time.value > 5 )
@@ -81,7 +84,7 @@
     stop ()
   })
 
-  defineExpose ( { reset, stop } )
+  defineExpose ( { reset, stop, start } )
 
 </script>
 
@@ -93,8 +96,7 @@
       backgroundImage: gradient,
       // backgroundColor: time ? 'transparent' : colors.alert,
       color: time_color,
-    }"
-    @click="pause">
+    }">
     {{ time }}
   </div>
 </template>
