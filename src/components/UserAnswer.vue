@@ -26,15 +26,19 @@
   const answer_el = ref ()
   const focus_answer_el = () => answer_el.value.focus ()
   onMounted ( focus_answer_el )
-  watch ( current_card_num, () => {
+
+  const reset = () => {
     user_answer.value = ''
     focus_answer_el ()
-  })
+  }
+  watch ( current_card_num, reset )
+  defineExpose ( { reset } )
 
   const submit = () => {
     if ( !has_user_answer.value ) return
     emit ( 'submitted', user_answer.value )
   }
+
 </script>
 
 <template>

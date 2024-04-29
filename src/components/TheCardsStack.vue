@@ -16,6 +16,7 @@
   const cards_list = ref ( cards.all_cards )
   cards.shuffle_cards ( cards_list.value )
   const user_ratings = ref ( init_user_ratings () )
+  const user_answer_el = ref ()
   const show_results = ref ( false )
 
   const card_num = ref ( 0 )
@@ -58,6 +59,7 @@
     show_results.value = false
 
     reset_timer ()
+    user_answer_el?.value?.reset ()
   }
   
   const review_stacks = () => {
@@ -115,6 +117,7 @@
       @rated="card_rated"
       />
     <UserAnswer
+      ref="user_answer_el"
       :current_card_num="card_num"
       :invalidated="!has_time"
       @submitted="card_submitted"
