@@ -1,7 +1,7 @@
 <!-- FinalResults -->
 
 <script setup>
-  import { computed, toRefs } from 'vue'
+  import { ref, computed, toRefs, onMounted } from 'vue'
 
   const props = defineProps ({
     results: {
@@ -32,61 +32,64 @@
   const do_restart = () => {
     emit ( 'restart' )
   }
+
+
+  const results_panel = ref()
+  const loaded = ref(false)
+  onMounted(()=>{
+    setTimeout(() => {
+      loaded.value = true
+    }, 500);
+  })
 </script>
 
 <template>
-  <div class="results_panel">
-    <h1>Your Resuslts</h1>
-    <h2>Final Score: {{ score }}%</h2>
-    <h1 v-if="score === 100">
-      WOW !!!!!!!
-    </h1>
-    <h1 v-if="score > 85">
-      You've got this!!
-      😃🎉
-    </h1>
-    <div class="resulst_grid">
-      <div>Right:</div>
-      <div>{{ right }}</div>
+  <Transition appear name="results">
+  <div class="results_panel_wrapper modal_wrapper">
+    <!-- v-if="loaded" -->
+    <div class="results_panel modal" ref="results_panel"
+      :class="{}">
+      <h1>Your Results</h1>
+      <h2>Final Score: {{ score }}%</h2>
+      <h1 v-if="score === 100">
+        WOW !!!!!!!
+      </h1>
+      <h1 v-if="score > 85">
+        You've got this!!
+        😃🎉
+      </h1>
+      <div class="resulst_grid">
+        <div>Right:</div>
+        <div>{{ right }}</div>
 
-      <div>Medium:</div>
-      <div>{{ medium }}</div>
+        <div>Medium:</div>
+        <div>{{ medium }}</div>
 
-      <div>Wrong:</div>
-      <div>{{ wrong }}</div>
+        <div>Wrong:</div>
+        <div>{{ wrong }}</div>
 
-      <div>Unanswered:</div>
-      <div>{{ unanswered }}</div>
-    </div>
+        <div>Unanswered:</div>
+        <div>{{ unanswered }}</div>
+      </div>
 
-    <div
-      v-if="has_cards_for_review"
-      class="restart_msg"
-      >
-      <h3>Do you want to review the wrong and unanswered cards?</h3>
       <div class="review_buttons_wrapper">
-        <button class="review_btn yes"
+        <button class="review_btn"
+          v-if="has_cards_for_review"
           @click="do_review">
-          Yes, let's review them
+          Re-do failed cards
         </button>  
-        <button class="review_btn no"
+        <button class="review_btn"
           @click="do_restart">
-          No, I want to restart all over
+          Restart
         </button>
       </div>
-    </div>
 
+    </div>
   </div>
+</Transition>
 </template>
 
 <style>
-  .results_panel {
-    border: 1px solid steelblue;
-    border-radius: 1rem;
-    padding: 3rem;
-    background: #222;
-  }
-
   .resulst_grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -95,32 +98,40 @@
     display: flex;
   }
 
-  .restart_msg {
-    margin-top: 3rem;
-  }
-  .restart_msg h3 {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-  }
-
   .review_buttons_wrapper {
     display: flex;
     justify-content: space-between;
+    margin-top: 3rem;
   }
 
   .review_btn {
     font-weight: bold;
   }
-  .review_btn.yes {
+  .review_btn:first-child {
     margin-right: 1rem;
   }
-  .review_btn.yes:hover {
-    background: seagreen;
-  }
-  .review_btn.no {
+  .review_btn:last-child {
     margin-left: 1rem;
   }
-  .review_btn.no:hover {
-    background: crimson;
+
+  .results-enter-active,
+  .results-leave-active {
+    transition: all .2s ease;
+  }
+  .results-enter-from,
+  .results-leave-to {
+    opacity: 0;
+    transform: scaleY ( 0 );
+  }
+
+  .results-enter-active .results_panel,
+  .results-leave-active .results_panel {
+    transition: all 1s ease;
+    /* transition-delay: .2s; */
+  }
+  .results-enter-from .results_panel,
+  .results-leave-to .results_panel {
+    opacity: 0;
+    transform: scale( 0 ) rotateY( 360deg ) translateY( 300% );
   }
 </style>
