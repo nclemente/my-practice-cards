@@ -5,6 +5,7 @@
   import PracticeCard from './PracticeCard.vue'
   import UserAnswer from './UserAnswer.vue'
   import CardTimer from './CardTimer.vue'
+  import TheWelcome from './TheWelcome.vue'
 
   import { ref, computed, onMounted } from 'vue'
   import { useCards } from '@/composables/cards'
@@ -62,8 +63,11 @@
     card_answered.value = false
     show_results.value = false
 
-    reset_timer ()
     user_answer_el?.value?.reset ()
+
+    timer_ready ()
+    started.value = false
+
   }
   
   const review_stacks = () => {
@@ -80,7 +84,9 @@
     reset ()
   }
 
-
+  //
+  // Timer
+  //
   const timer_el = ref ()
   const has_time = ref ( true )
   const time_up = () => {
@@ -89,6 +95,29 @@
   const reset_timer = () => {
     has_time.value = true
     timer_el.value.reset ()
+  }
+  const timer_ready = () => {
+    has_time.value = true
+    timer_el.value.reset ()
+    timer_el.value.stop ()
+  }
+  onMounted( () => {
+    timer_ready()
+  })
+
+  //
+  // Welcome
+  //
+  const started = ref ( false )
+  const start = () => {
+    reset ()
+    started.value = true
+    reset_timer ()
+  }
+  const restore = () => {
+    started.value = true
+    if ( !card_answered.value )
+      reset_timer ()
   }
 </script>
 
@@ -102,6 +131,15 @@
     Bad: {{ bad_stack.length }}
     Unrated: {{ unrated_stack.length }} -->
   </div>
+
+  <Transition name="welcome">
+    <TheWelcome
+      v-if="!started"
+      :starting="is_first_card && !card_answered"
+      @start="start"
+      @continue="restore"
+      />
+  </Transition>
 
   <Transition name="results">
     <FinalResults
