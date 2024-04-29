@@ -1074,8 +1074,7 @@ export const my_plugin = {
 ];
 
 const shuffle_cards = cards => {
-  cards.sort ( (q1, q2) => Math.random() - .5 )
-  console.log('SORTED cards', cards)
+  cards.sort ( () => Math.random() - .5 )
 }
 
 export const useCards = () => {
