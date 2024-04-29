@@ -2,6 +2,10 @@
 
 <script setup>
   import { ref, toRefs, watch, computed, onMounted, onUnmounted } from 'vue'
+  import { useStorage } from '@vueuse/core'
+  import { useStorageName } from '@/composables/storage_name'
+
+  const sn = useStorageName ( 'practice_card' )
 
   const props = defineProps ({
     card: {
@@ -28,7 +32,7 @@
   ])
 
   
-  const rating = ref ( -1 )
+  const rating = useStorage ( sn.get_name ( `rating` ), -1 )
   watch ( rating, () => emit ( 'rated', rating.value ) )
   // const rate = rating_value => {
   //   rating.value = rating_value

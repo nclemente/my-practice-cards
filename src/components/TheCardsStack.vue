@@ -6,21 +6,24 @@
   import UserAnswer from './UserAnswer.vue'
   import CardTimer from './CardTimer.vue'
 
-  import { ref, computed } from 'vue'
+  import { ref, computed, onMounted } from 'vue'
   import { useCards } from '@/composables/cards'
+  import { useStorageName } from '@/composables/storage_name'
+  import { useStorage } from '@vueuse/core'
 
   const cards = useCards ()
+  const sn = useStorageName ( 'stack' )
   
   const init_user_ratings = () => new Array ( cards.all_cards.length ).fill ().map ( () => -1 )
   
   const cards_list = ref ( cards.all_cards )
-  cards.shuffle_cards ( cards_list.value )
-  const user_ratings = ref ( init_user_ratings () )
+  
   const user_answer_el = ref ()
+  const user_ratings = useStorage ( sn.get_name ( `user_ratings` ), init_user_ratings () )
   const show_results = ref ( false )
 
-  const card_num = ref ( 0 )
-  const card_answered = ref ( false )
+  const card_num = useStorage ( sn.get_name ( `card_num` ), 0 )
+  const card_answered = useStorage ( sn.get_name ( `card_answered` ), false )
 
   const is_first_card = computed ( () => card_num.value <= 0 )
   const is_last_card = computed ( () => card_num.value >= cards_list.value.length - 1 )
@@ -45,7 +48,8 @@
       card_answered.value = false
     }
     reset_timer ()
-  } 
+  }
+
   const practice_done = () => {
     show_results.value = true
   }

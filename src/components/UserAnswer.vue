@@ -2,6 +2,10 @@
 
 <script setup>
   import { ref, computed, watch, onMounted, toRefs } from 'vue'
+  import { useStorage } from '@vueuse/core'
+  import { useStorageName } from '@/composables/storage_name'
+
+  const sn = useStorageName ( 'user_answer' )
 
   const props = defineProps({
     current_card_num: {
@@ -20,7 +24,7 @@
     'submitted',
   ])
 
-  const user_answer = ref ( '' )
+  const user_answer = useStorage ( sn.get_name ( `user_answer` ), '' )
   const has_user_answer = computed ( () => user_answer.value.trim ().length > 0 )
 
   const answer_el = ref ()
